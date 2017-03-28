@@ -1,5 +1,5 @@
   static InputReader sc=new InputReader(System.in);
-	static PrintWriter w=new PrintWriter(System.out);
+	
  
  static class InputReader
 	{
