@@ -1,0 +1,104 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    
+    static  long bigmod ( long a, long p, long m ) {
+        long res = 1 % m, x = a % m;
+        
+        while ( p>0 ) {
+            if( ( p & 1)==1 ) res = ( res * x ) % m;
+            x = ( x * x ) % m; p >>= 1;
+        }
+        
+        return res;
+    
+    }
+    
+    static int mod=1000000007;
+    static void solve(ArrayList<Long> giv,int n,int k){
+        
+         ArrayList<Long> al;
+         int len; 
+        
+        for(int b=62;b>=0;b--)
+       {
+            al=new ArrayList();
+            
+            len=giv.size();
+            
+          for(int i=0;i<len;i++)
+          {
+               if((((long)giv.get(i) & (1<<b)))!=0)
+                {
+                   al.add(giv.get(i));
+                   
+                 //  System.out.print((long)giv.get(i) & (1<<b));
+                }   
+          }
+            
+            
+            if(al.size()>=k)
+            {
+                giv=al;
+                
+                
+            }
+      
+      }      
+            
+        long ans=giv.get(0);
+        
+         for(int i=1;i<k;i++)
+        {
+            ans=ans & giv.get(i);
+        }
+         
+        System.out.println(ans);
+        
+      
+         len = giv.size();
+        long a = 1;
+        for(int i=1; i<=len; i++)
+        {
+           a = (a*i)%(mod);
+        }
+        long b = 1;
+        for(int i=1; i<=k; i++)
+        {
+           b = (b*i)%(mod);
+        }
+        long c = 1;
+        for(int i=1; i<=(len-k); i++)
+        {
+           c = (c*i)%(mod);
+        }
+        b = bigmod(b, mod-2, mod);
+        c = bigmod(c, mod-2, mod);
+        a = (a*b)%mod;
+        a = (a*c)%mod;
+        
+        System.out.println(a);
+        
+        
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        
+         ArrayList<Long> giv=new ArrayList();
+        
+        for(int a_i=0; a_i < n; a_i++){
+            giv.add(in.nextLong());
+        }
+        
+        
+        solve(giv,n,k);
+    }
+}
