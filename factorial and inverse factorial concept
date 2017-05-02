@@ -1,0 +1,50 @@
+
+
+reference : https://www.hackerrank.com/rest/contests/hourrank-20/challenges/p-string/hackers/Gennady/download_solution
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+long md = 1000000007;
+
+long pow(long a, long b)
+{
+    long x=1,y=a; 
+    while(b > 0)
+    {
+        if(b%2 == 1)
+        {
+            x=(x*y);
+            if(x>MOD) x%=MOD;
+        }
+        y = (y*y);
+        if(y>MOD) y%=MOD; 
+        b /= 2;
+    }
+    return x;
+}
+
+long InverseEuler(long n)
+{
+    return pow(n,MOD-2);
+}
+
+long C(long n, long r)                                         //nCr calculation
+{
+    return (f[n]*((InverseEuler(f[r]) * InverseEuler(f[n-r])) % MOD)) % MOD;
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+ fact[0] = 1;
+ invfact[0] = 1;
+  
+  for (int i = 1; i < N; i++) {
+    fact[i] = mul(fact[i - 1], i);
+    invfact[i] = inv(fact[i]);
+  }
+  
+  
+
+  
