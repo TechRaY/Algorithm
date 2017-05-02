@@ -1,0 +1,75 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int g = in.nextInt();
+        for(int a0 = 0; a0 < g; a0++){
+            int n = in.nextInt();
+            int m = in.nextInt();
+            int x = in.nextInt();
+            
+            int[] a = new int[n+1];
+            
+            
+            
+            for(int a_i=1; a_i <= n; a_i++){
+                a[a_i] = in.nextInt();
+                a[a_i]+=a[a_i-1]; 
+            }
+            
+            int[] b = new int[m+1];
+            
+            
+            for(int b_i=1; b_i <=m; b_i++){
+                b[b_i] = in.nextInt();
+                b[b_i]+=b[b_i-1]; 
+            }
+            
+            int total=0;
+            
+            int i;
+            
+            for( i=1; i <=n; i++)
+            {
+                  if(a[i]>x)
+                  break;
+                
+                
+            }
+            
+            int count=--i;
+            
+            for(int j=1;j<=m;)
+            {
+                int val=a[i]+b[j];
+                
+                if(val>x && i>0)
+                {
+                    i--;
+                }
+                else
+                {
+                     if(i==0 && val>x)
+                        break;
+                    
+                    if(val<=x)
+                    count=Math.max(count,i+j);
+                      
+                    
+                    j++;
+                }   
+                
+                
+            }
+       
+           System.out.println(count);
+            
+        }
+    }
+}
