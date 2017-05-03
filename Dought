@@ -24,6 +24,7 @@ public class Solution {
         
          ArrayList<Long> al;
          int len; 
+         long rk=1;                        
         
         for(int b=62;b>=0;b--)
        {
@@ -33,7 +34,7 @@ public class Solution {
             
           for(int i=0;i<len;i++)
           {
-               if((((long)giv.get(i) & (1<<b)))!=0)
+               if((((long)giv.get(i) & (rk<<b)))!=0)             //earlier i was shifting only integer 1 giving wrong ans it needs long 1 tp get AC
                 {
                    al.add(giv.get(i));
                    
@@ -59,7 +60,7 @@ public class Solution {
         }
          
         System.out.println(ans);
-        
+   
       
          len = giv.size();
         long a = 1;
