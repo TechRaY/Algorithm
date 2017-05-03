@@ -31,7 +31,7 @@ private static void print(char[][] board) {
 				for (Integer[] pos : h) {
 					int row = pos[0];
 					int col = pos[1];
-					//System.out.print("Tesing position "+row+","+col+" for word "+w+"...");
+					//System.out.print("Testing position "+row+","+col+" for word "+w+"...");
 					boolean fit = true;
 
 					// Backup
