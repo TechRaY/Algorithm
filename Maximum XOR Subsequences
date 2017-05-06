@@ -78,7 +78,8 @@ public class Solution {
         {
            c = (c*i)%(mod);
         }
-        b = bigmod(b, mod-2, mod);
+        
+        b = bigmod(b, mod-2, mod);           //Inverse factorial concept 
         c = bigmod(c, mod-2, mod);
         a = (a*b)%mod;
         a = (a*c)%mod;
