@@ -79,7 +79,7 @@ public class Solution {
            c = (c*i)%(mod);
         }
         
-        b = bigmod(b, mod-2, mod);           //Inverse factorial concept 
+        b = bigmod(b, mod-2, mod);           //Inverse factorial concept    =========>>>>>   nCk=fact(n)*ifact(k)*ifact(n-k)
         c = bigmod(c, mod-2, mod);
         a = (a*b)%mod;
         a = (a*c)%mod;
