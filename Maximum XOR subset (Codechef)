@@ -1,0 +1,98 @@
+https://www.codechef.com/DEC14/problems/XORSUB
+
+//Getting runtime error for http://www.spoj.com/problems/XMAX/                       Accessing more memory so segmentation fault
+
+
+import java.io.*;
+import java.util.*;
+
+class Solution {
+
+    static int length( long l)
+    {
+        int count=0;
+        
+        while(l>0)
+        {
+            count++;
+            l>>=1;
+        }
+        
+        return count;
+    }
+    
+    
+    public static void main(String[] args) {
+        
+        Scanner sc=new Scanner(System.in);
+        
+        int testcases=sc.nextInt();
+        
+        while(testcases-->0)
+      {  
+        int n=sc.nextInt();
+        int k=sc.nextInt();
+        
+        long a[]=new long[n];
+        int length[]=new int[65];
+        ArrayList buckets[]=new ArrayList[65];
+        ArrayList modifiedArray[]=new ArrayList[101];
+        
+        for(int i=0;i<=64;i++)
+        {
+            buckets[i]=new ArrayList();
+            modifiedArray[i]=new ArrayList();
+        }
+        
+        for(int i=65;i<=100;i++)
+        {
+            modifiedArray[i]=new ArrayList();
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+            a[i]=sc.nextLong();
+            length[i]=length(a[i]);
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+           buckets[length[i]].add(a[i]);
+        }
+        
+        
+        int mindex=0;
+        
+        for(int j=64;j>0;j--)
+        {
+            if(buckets[j].size()>0)
+            {
+                 modifiedArray[mindex++].add(buckets[j].get(0));
+                
+                    int size=buckets[j].size(); 
+                     
+                  for(int m=1;m<size;m++)
+                  {
+                     long temp=(Long)buckets[j].get(0)^(Long)buckets[j].get(m);
+                     int len=length(temp); 
+                      buckets[len].add(temp);
+                  }
+                
+                
+            }
+            
+        }
+        
+        long ans=k;                    //for normal max xor subset keeep this 0
+        
+        
+          for(int i=0;i<mindex;i++)
+          {
+             if(ans<(ans^(Long)modifiedArray[i].get(0)))     
+               ans=ans^(Long)modifiedArray[i].get(0)  ;
+          }  
+        
+        System.out.println(ans);
+       } 
+    }
+}
