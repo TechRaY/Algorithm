@@ -1,0 +1,131 @@
+
+import java.io.*;
+import java.util.*;
+ 
+public class Trie {
+ 
+    private class TrieNode
+    {
+        HashMap<Character,TrieNode> children;
+        boolean endofword;
+        
+        public TrieNode()
+        {
+            children=new HashMap();
+            endofword=false;
+        }    
+    }
+    
+    private final TrieNode root;
+    
+    public Trie()
+    {
+        root=new TrieNode();
+    }    
+    
+    
+    public void insert(String word)                 //Iterative Insert
+    {
+        TrieNode current=root;
+        int len=word.length();
+        
+        for(int i=0;i<len;i++)
+        {
+            char ch=word.charAt(i);
+            
+            TrieNode node =current.children.get(ch);
+            
+            if(node==null)
+            {
+                node=new TrieNode();
+                current.children.put(ch,node);
+            }
+            
+            current=node;
+        }
+        
+        current.endofword=true;
+    }
+    
+    
+    
+     public boolean search(String word)                      //Search for the word
+     {
+        TrieNode current=root;
+        int len=word.length();
+        for(int i=0;i<len;i++)
+        {
+            char ch=word.charAt(i);
+            TrieNode node=current.children.get(ch);
+            
+            if(node==null)
+            return false;
+            
+            current=node;
+        }
+        
+        return current.endofword;
+     }
+    
+    
+    
+     public void delete(String word)
+     {
+         delete(root,word,0);
+     }
+    
+    
+    
+    
+     private boolean delete(TrieNode current,String word,int index)
+     {
+         if(index==word.length())
+         {
+             if(!current.endofword)
+             {
+                 return false;
+             }
+             
+             current.endofword=false;
+             
+             return current.children.size()==0;
+         }
+         
+         char ch=word.charAt(index);
+         
+         TrieNode node=current.children.get(ch);
+         
+         if(node==null)
+         {
+             return false;
+         }
+         
+         
+         boolean shoulddeletecurrentnode=delete(node,word,index+1);
+         
+         if(shoulddeletecurrentnode)
+         {
+             current.children.remove(ch);
+             
+             return current.children.size()==0;
+         }
+         
+         return false;
+     }
+    
+    
+    
+    public static void main(String args[])
+    {
+        Trie triechecker=new Trie();
+        
+        triechecker.insert("rajeev");
+        
+        if(triechecker.search("rajeev"))
+        System.out.println(" exists");
+        
+        if(!triechecker.search("raneev"))
+        System.out.println("not exists");
+        
+    }    
+} 
