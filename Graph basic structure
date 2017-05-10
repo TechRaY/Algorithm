@@ -6,7 +6,7 @@ import java.io.*;
 public class Graph
 {
 		private int V;
-		private LinkedList<Integer,Integer> adj[];
+		private ArrayList<Integer,Integer> adj[];
 
 		public Graph(int k)
 		{
@@ -15,7 +15,7 @@ public class Graph
 
 			for(int i=0;i<V;i++)	
 			{
-				adj[i]=new LinkedList();
+				adj[i]=new ArrayList();
 			}	
 
 		}
