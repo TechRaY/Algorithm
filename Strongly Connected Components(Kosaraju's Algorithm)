@@ -1,0 +1,151 @@
+
+import java.util.*;
+import java.io.*;
+
+
+public class Graph
+{
+		private int V;
+		private LinkedList<Integer> adj[];
+
+		public Graph(int k)
+		{
+			V=k;
+			adj=new LinkedList[V];	
+
+			for(int i=0;i<V;i++)	
+			{
+				adj[i]=new LinkedList();
+			}	
+
+		}
+
+
+		public void addEdge(int v,int w)
+		{
+			adj[v].add(w);
+		}
+
+
+		public void fillOrder(int v,Stack s,boolean visited[])
+		{
+
+			visited[v]=true;
+
+			Iterator<Integer> iter=adj[v].iterator();
+
+			while(iter.hasNext())
+			{
+				int n=iter.next();
+
+				if(!visited[n])
+				fillOrder(n,s,visited);		
+
+			}
+
+			s.push(new Integer(v));
+
+		}	
+
+
+		public Graph getTranspose()
+		{
+			Graph p=new Graph(V);
+
+			for(int i=0;i<V;i++)
+			{
+				Iterator m=adj[i].iterator();
+
+				while(m.hasNext())
+				{
+
+					p.adj[(Integer)m.next()].add(i);
+				}		
+
+			}	
+
+
+			return p;
+		}
+
+		public void dfs(int rk,boolean visited[])
+		{
+			visited[rk]=true;
+			System.out.print(rk+" ");
+
+			Iterator<Integer> iter=adj[rk].iterator();
+			int val;	
+
+			while(iter.hasNext())
+			{
+				 val=iter.next();
+
+				if(!visited[val])
+				dfs(val,visited);	
+			}	
+
+		}	
+
+		public void printSCCs()
+		{
+			Stack s=new Stack();
+			boolean visited[]=new boolean[V];	
+
+			for(int i=0;i<V;i++)
+			{
+				visited[i]=false;	
+			}	
+
+
+			for(int i=0;i<V;i++)	
+			{
+				if(!visited[i])
+				{
+					fillOrder(i,s,visited);
+				}	
+
+			}
+
+			Graph gr=getTranspose();
+			
+			for(int i=0;i<V;i++)
+			{
+				visited[i]=false;	
+			}	
+
+			while(s.empty()==false)
+			{
+
+				int rk=(int)s.pop();
+
+				if(!visited[rk])
+				{
+					
+					gr.dfs(rk,visited);
+					System.out.println();
+				}	
+
+			}	
+
+
+		}
+
+		public static void main(String args[])
+		{
+
+			  Graph g = new Graph(5);
+        	  	g.addEdge(1, 0);
+        		g.addEdge(0, 2);
+        		g.addEdge(2, 1);
+        		g.addEdge(0, 3);
+        		g.addEdge(3, 4);
+ 
+        		System.out.println("Following are strongly connected components "+
+                           "in given graph ");
+        		
+        		g.printSCCs();
+
+		}
+
+    
+}
