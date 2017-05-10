@@ -6,7 +6,7 @@ import java.io.*;
 public class Graph
 {
 		private int V;
-		private ArrayList<Integer,Integer> adj[];
+		private ArrayList<Integer> adj[];
 
 		public Graph(int k)
 		{
