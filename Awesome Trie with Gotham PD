@@ -1,0 +1,326 @@
+https://www.codechef.com/MAY17/problems/GPD/
+
+import java.io.*;
+import java.math.*;
+import java.util.*;
+ 
+ 
+class AwesomeTrie {
+	
+	InputStream in;
+	PrintWriter out;
+	
+	void solve() 
+	{
+		HashMap<Integer,Integer> map= new HashMap<Integer,Integer>();
+		
+		int idx=0;   //u can use the same value as id too.
+		int n=ni();
+		int q=ni();
+		int r=ni();
+		int rk=ni();
+		
+		map.put(r, idx++);
+		r=map.get(r);
+		
+		Node line[]=new Node[(int)4e5];
+		line[r]=new Node(r,rk);
+		
+		for (int i=0;i<n-1;i++)
+		{
+			int u=ni();
+			int v=ni();
+			int k=ni();
+			map.put(u, idx++);
+			u=map.get(u);
+			v=map.get(v);
+			line[u]=new Node(u,k,line[v].t);
+			
+		}
+		
+		int lastAns=0;
+		for (int i=0;i<q;i++)
+		{
+			int t=ni()^lastAns;
+			
+			if (t==0)
+			{
+				int v=ni()^lastAns;
+				int u=ni()^lastAns;
+				int k=ni()^lastAns;
+				
+				map.put(u, idx++);
+				u=map.get(u);
+				v=map.get(v);
+				
+				line[u]=new Node(u,k,line[v].t);
+			}
+			else
+			{
+				
+				int v=ni()^lastAns;
+				int k=ni()^lastAns;
+				
+				v=map.get(v);
+				
+				int a=line[v].t.minquery(k);
+				int b=line[v].t.maxquery(k);
+				
+				out.println(a+" "+b);
+				
+				lastAns=a^b;
+			}
+		}
+		
+	}
+	
+	class Node
+	{
+		int v;
+		int key;
+		Trie t;
+		
+		Node (int a,int b,Trie c)
+		{
+			v=a;
+			key=b;
+			t=new Trie();
+			t.upgrade(c.root, key);
+		}
+		
+		Node (int a, int b)
+		{
+			v=a;
+			key=b;
+			t=new Trie();
+			t.insert(key);
+		}
+		
+	}
+	
+	class TrieNode {
+		TrieNode arr[];
+		int value;
+		TrieNode() {
+			arr = new TrieNode[2];
+			value=0;
+		}
+	}
+	
+	class Trie {
+		TrieNode root;
+		int INT_SIZE = 32;
+ 
+		Trie() {
+			root = new TrieNode();
+		}
+		
+		void insert(int xor) {
+			TrieNode temp = root;
+			for (int i = INT_SIZE - 1; i >= 0; i--) {
+				int val = ((xor >> i) & 1);
+				if (temp.arr[val] == null)
+					temp.arr[val] = new TrieNode();
+				temp = temp.arr[val];
+ 
+			}
+			temp.value = xor;
+		}
+		
+		void upgrade(TrieNode prev,int xor)
+		{
+			TrieNode temp = root;
+			
+			for (int i = INT_SIZE - 1; i >= 0; i--) {
+				int val = ((xor >> i) & 1);
+				
+				if (prev.arr[val] == null)
+					{
+						temp.arr[val] = new TrieNode();         //jo mere pass hai woh tere pass nahi aur acha
+						temp.arr[1-val]=prev.arr[1-val];
+						temp=temp.arr[val];
+						for (i--;i>=0;i--)
+						{
+							val = ((xor >> i) & 1);
+							temp.arr[val] = new TrieNode();
+							temp = temp.arr[val];
+						}
+						break;
+					}
+				
+				temp.arr[val]=new TrieNode();
+				temp.arr[1-val]=prev.arr[1-val];
+				temp = temp.arr[val];
+				prev = prev.arr[val];
+			}
+			
+			temp.value = xor;                                   //actual value
+		}
+ 
+		int maxquery(int xor) {
+			TrieNode temp = root;
+			for (int i = INT_SIZE - 1; i >= 0; i--) {
+				int val = ((xor >> i) & 1);
+				if (temp.arr[1 - val] != null)
+					temp = temp.arr[1 - val];
+				else if (temp.arr[val] != null)
+					temp = temp.arr[val];
+ 
+			}
+			return temp.value^xor;
+		}
+		
+		int minquery(int xor) {
+			TrieNode temp = root;
+			for (int i = INT_SIZE - 1; i >= 0; i--) {
+				int val = ((xor >> i) & 1);
+				if (temp.arr[val] != null)
+					temp = temp.arr[val];
+				else if (temp.arr[1-val] != null)
+					temp = temp.arr[1-val];
+ 
+			}
+			return temp.value^xor;
+		}
+		
+	}
+ 
+	
+	
+	void run() throws Exception {
+		String INPUT = "C:/Users/Desktop/input.txt";
+		oj=true;
+		in = oj ? System.in : new FileInputStream(INPUT);
+		out = new PrintWriter(System.out);
+		
+			long s = System.currentTimeMillis();
+			solve();
+			out.flush();
+			tr(System.currentTimeMillis() - s + "ms");
+		
+	}
+	
+	public static void main(String[] args) throws Exception {
+		new AwesomeTrie().solve();
+	}
+	
+	private byte[] inbuf = new byte[1024];
+	public int lenbuf = 0, ptrbuf = 0;
+	
+	private int readByte() {
+		if (lenbuf == -1)
+			throw new InputMismatchException();
+		if (ptrbuf >= lenbuf) {
+			ptrbuf = 0;
+			try {
+				lenbuf = in.read(inbuf);
+			} catch (IOException e) {
+				throw new InputMismatchException();
+			}
+			if (lenbuf <= 0)
+				return -1;
+		}
+		return inbuf[ptrbuf++];
+	}
+	
+	private boolean inSpaceChar(int c) {
+		return !(c >= 33 && c <= 126);
+	}
+	
+	private int skip() {
+		int b;
+		while ((b = readByte()) != -1 && inSpaceChar(b))
+			;
+		return b;
+	}
+	
+	private double nd() {
+		return Double.parseDouble(ns());
+	}
+	
+	private char nc() {
+		return (char) skip();
+	}
+	
+	private String ns() {
+		int b = skip();
+		StringBuilder sb = new StringBuilder();
+		while (!(inSpaceChar(b))) { // when nextLine, (inSpaceChar(b) && b != ' ')
+			sb.appendCodePoint(b);
+			b = readByte();
+		}
+		return sb.toString();
+	}
+	
+	private char[] ns(int n) {
+		char[] buf = new char[n];
+		int b = skip(), p = 0;
+		while (p < n && !(inSpaceChar(b))) {
+			buf[p++] = (char) b;
+			b = readByte();
+		}
+		return n == p ? buf : Arrays.copyOf(buf, p);
+	}
+	
+	private char[][] nm(int n, int m) {
+		char[][] map = new char[n][];
+		for (int i = 0; i < n; i++)
+			map[i] = ns(m);
+		return map;
+	}
+	
+	private int[] na(int n) {
+		int[] a = new int[n];
+		for (int i = 0; i < n; i++)
+			a[i] = ni();
+		return a;
+	}
+	
+	private int ni() {
+		int num = 0, b;
+		boolean minus = false;
+		while ((b = readByte()) != -1 && !((b >= '0' && b <= '9') || b == '-'))
+			;
+		if (b == '-') {
+			minus = true;
+			b = readByte();
+		}
+		
+		while (true) {
+			if (b >= '0' && b <= '9') {
+				num = num * 10 + (b - '0');
+			} else {
+				return minus ? -num : num;
+			}
+			b = readByte();
+		}
+	}
+	
+	private long nl() {
+		long num = 0;
+		int b;
+		boolean minus = false;
+		while ((b = readByte()) != -1 && !((b >= '0' && b <= '9') || b == '-'))
+			;
+		if (b == '-') {
+			minus = true;
+			b = readByte();
+		}
+		
+		while (true) {
+			if (b >= '0' && b <= '9') {
+				num = num * 10 + (b - '0');
+			} else {
+				return minus ? -num : num;
+			}
+			b = readByte();
+		}
+	}
+	
+	private boolean oj = System.getProperty("ONLINE_JUDGE") != null;
+	
+	private void tr(Object... o) {
+		if (!oj)
+			System.out.println(Arrays.deepToString(o));
+	}
+}
