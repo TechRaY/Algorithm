@@ -1,4 +1,12 @@
-  static InputReader sc=new InputReader(System.in);
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static InputReader sc=new InputReader(System.in);
 	
  
  static class InputReader
@@ -178,4 +186,16 @@
 			public boolean isSpaceChar(int ch);
 		}
 	}
+    
+    
+    public static void main(String[] args) 
+    {
+          int testcases=sc.nextInt();
+           
+         while(testcases-->0)
+         {
 
+         }   
+        
+    }
+}
