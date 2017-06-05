@@ -1,0 +1,71 @@
+//      https://www.codechef.com/JUNE17/problems/NEO01/
+
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) 
+    {
+          Scanner sc=new Scanner(System.in);
+    
+          int testcases=sc.nextInt();
+        
+          while(testcases-->0)  
+          {
+              int n=sc.nextInt();
+              
+              int a[]=new int[n];
+              int countl=0;
+              long sumnegate=0;
+              long sumposite=0;
+              
+              for(int i=0;i<n;i++)
+              {
+                 a[i]=sc.nextInt();
+                  
+                  if(a[i]<0)
+                  {
+                      countl++;
+                      sumnegate+=a[i];
+                  }   
+                  else
+                  {
+                      sumposite+=a[i];
+                  }    
+              
+              }
+              
+              
+              Arrays.sort(a);
+              int countr=n-countl;
+              long max=sumposite*countr+sumnegate;
+              long current=0;
+              long val=0;
+              long rk=1;
+              
+              for(int i=countl-1;i>=0;i--)
+              {
+                  val+=a[i];
+                  current=(sumnegate-val)+((val+sumposite)*(countr+rk++));
+                  
+                  if(current>max)
+                  {
+                      max=current;
+                  }
+                  else
+                  break;    
+              }
+              
+            
+               System.out.println(max);     
+          
+          }    
+              
+              
+    }    
+}
