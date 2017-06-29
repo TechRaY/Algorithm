@@ -1,0 +1,96 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class DisjointSet {
+
+    static InputReader sc=new InputReader(System.in);
+    static HashMap<Integer,Node> hm=new HashMap<Integer,Node>();
+    
+    class Node
+    {
+        int data;
+        int rank;
+        Node parent;
+        
+        public Node(int val)
+        {
+            data=val;
+            rank=0;
+            parent=this;
+        }
+    }    
+    
+    public void makeSet(int val)
+    {
+       hm.put(val,new Node(val));
+    }
+    
+    
+    public void unionSet(int val1,int val2)
+    {   
+        Node node1=hm.get(val1);
+        Node node2=hm.get(val2);
+        
+        
+        Node parent1=findSet(node1);
+        Node parent2=findSet(node2);
+        
+        if(parent1.data==parent2.data)
+        return;
+        
+        if(parent1.rank>=parent2.rank)
+        {
+            parent1.rank+=(parent1.rank==parent2.rank)?1:0;
+            parent2.parent=parent1;
+        }
+        else
+        parent1.parent=parent2;
+        
+    }
+    
+    public int findSet(int val)
+    {
+        return findSet(hm.get(val)).data;
+    }
+    
+    
+    public Node findSet(Node k)
+    {
+        Node parent=k.parent;
+        
+        if(parent==k)
+         return parent;
+        
+        k.parent=findSet(parent);     //path compression
+        
+        return k.parent;
+    }
+
+    public static void main(String[] args) 
+    {
+          int n=sc.nextInt();
+          int m=sc.nextInt();
+          int len=sc.nextInt()+1;
+        
+          Solution s=new Solution();        
+           
+        
+        
+        for(int i=1;i<=n;i++)
+        {
+            s.makeSet(i);            //initially making inndividual sets
+        }
+       
+        for(int i=0;i<m;i++)
+        {
+             int a=sc.nextInt();
+             int b=sc.nextInt();
+             
+             s.unionSet(a,b);            // grouping the required sets
+        }
+        
+    }
+}
