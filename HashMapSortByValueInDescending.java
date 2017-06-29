@@ -29,28 +29,18 @@ public class HashMapSortByValueInDescending
        {
            k=sc.nextInt();   
            l=sc.nextInt();   
-           
-        
            lMap.put(k,l);
-           
        }
         
-           Set<Entry<Integer, Integer>> entrySet = lMap.entrySet();
-        List<Entry<Integer, Integer>> listOfentrySet = new ArrayList<Entry<Integer, Integer>>(entrySet);
+       Set<Entry<Integer, Integer>> entrySet = lMap.entrySet();
+       List<Entry<Integer, Integer>> listOfentrySet = new ArrayList<Entry<Integer, Integer>>(entrySet);
         
+       Collections.sort(listOfentrySet, new SortByValue());
+  
+       for(Map.Entry<Integer, Integer> entry:listOfentrySet)
+       System.out.print(lMap.get(entry.getKey())+" ");
         
-         Collections.sort(listOfentrySet, new SortByValue());
-
- 
- 
-        
-        
-        for(Map.Entry<Integer, Integer> entry:listOfentrySet)
-         System.out.print(lMap.get(entry.getKey())+" ");
-        
-}
-    
-    
+   }
 }
 
 
@@ -59,7 +49,7 @@ class SortByValue implements Comparator<Map.Entry<Integer, Integer>>{
    @Override
    public int compare( Map.Entry<Integer,Integer> entry1, Map.Entry<Integer,Integer> entry2){
         
-       int second=entry2.getValue();
+       int second=entry2.getValue();   //just change these 2 lines to get the order as required.
        int first=entry1.getValue();
        
           if(second>first)
