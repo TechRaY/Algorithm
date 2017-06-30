@@ -52,10 +52,10 @@ class BIT
     public static void main(String[] args) 
     {
          int ar[] = {1,2,3,4,5};
-	     int n = ar.length;
-	     BIT tree = new BIT(ar,n);
+	 int n = ar.length;
+	 BIT tree = new BIT(ar,n);
          tree.update(2,n,-10);
          tree.print();
-	     System.out.println(tree.get_sum(2));
+	 System.out.println(tree.get_sum(2));
     }
 }
