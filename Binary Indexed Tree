@@ -1,0 +1,61 @@
+import java.io.*;
+import java.util.*;
+
+class BIT
+{
+    int arr[];
+    
+    BIT(int []ar,int len)
+    {
+         arr=new int[len+1];   
+         
+         for(int i=0;i<len;i++)
+         {
+             update(i,len,ar[i]);
+         }    
+    }
+    
+    
+    public void update(int index,int len,int val)
+    {
+        index++;
+        
+        while(index<=len)
+        {
+            arr[index]+=val;
+            
+            index+=(index)&(-index);                        //first take 2's complement of the number and with the originalnumber
+        }                                                   // And then that to the original number to get the next index.                        
+    }
+    
+    
+    public int get_sum(int index)
+    {
+        index++;
+        int sum=0;
+        
+        while(index>0)
+        {
+            sum+=arr[index];
+            index-=(index)&(-index);      //first take 2's complement of the number and with the originalnumber
+        }                                 // And then that to the original number to get the next index.            
+        
+        return sum;
+    }    
+    
+    public void print()
+    {
+        System.out.println(Arrays.toString(arr));
+    }
+    
+    
+    public static void main(String[] args) 
+    {
+         int ar[] = {1,2,3,4,5};
+	     int n = ar.length;
+	     BIT tree = new BIT(ar,n);
+         tree.update(2,n,-10);
+         tree.print();
+	     System.out.println(tree.get_sum(2));
+    }
+}
