@@ -1,0 +1,119 @@
+import java.io.*;
+import java.util.*;
+
+class SegmentTree
+{
+    int st[];
+    
+    SegmentTree(int arr[],int n)
+    {
+        int h=(int)(Math.ceil(Math.log(n) / Math.log(2)));
+        int size=2*(int)Math.pow(2,h)-1;
+        st=new int[size];
+      //  System.out.println(size);
+        constructSegmentTreeUtil(arr,0,n-1,0);
+    }
+    
+    
+    public int constructSegmentTreeUtil(int arr[],int ss,int se,int si)
+    {
+        if(ss==se)
+        {
+            st[si]=arr[ss];
+            return st[si];
+        }
+        
+        int mid=getMid(ss,se);
+        
+        st[si]=constructSegmentTreeUtil(arr,ss,mid,2*si+1)+
+               constructSegmentTreeUtil(arr,mid+1,se,2*si+2); 
+        
+        return st[si];
+    }    
+        
+    public int getMid(int ss,int se)
+    {
+        return ss+(se-ss)/2;
+    }
+    
+    
+    
+    public int getSum(int n,int qs,int qe)
+    {
+        if(qs<0 || qe >n-1 || qe<qs)
+        {
+            System.out.println("Invalid Input");
+            return -1   ; 
+        }
+        
+        return getSumUtil(0,n-1,qs,qe,0);
+    }
+    
+   
+    
+    public int getSumUtil(int ss,int se,int qs,int qe,int si)
+    {
+        if (qs <= ss && qe >= se)
+            return st[si];
+        
+        if (se < qs || ss > qe)
+        return 0;
+        
+        int mid=getMid(ss,se);
+        
+        return getSumUtil(ss,mid,qs,qe,2*si+1)+getSumUtil(mid+1,se,qs,qe,2*si+2);
+    }
+    
+    
+    void updateValue(int arr[],int n,int i,int newval)
+    {
+        if(i<0 || i>n-1)
+        {
+            System.out.println("Invalid Index");
+            return;
+        }
+        
+        int diff=newval-arr[i];
+        updateValueUtil(0,n-1,i,diff,0);
+    }
+    
+    void updateValueUtil(int ss,int se,int index,int diff,int si)
+    {
+        if(index<ss || index>se)
+        return;
+        
+        st[si]+=diff;
+        
+        if(ss!=se)
+        {
+            int mid=getMid(ss,se);
+            
+            updateValueUtil(ss,mid,index,diff,2*si+1);
+            updateValueUtil(mid+1,se,index,diff,2*si+2);
+        }    
+    }
+    
+    public void print()
+    {
+        System.out.println(Arrays.toString(st));
+    }
+    
+    
+    public static void main(String[] args) 
+    {
+            int arr[] = {1, 3, 5, 7, 9, 11};
+            int n = arr.length;
+            SegmentTree  tree = new SegmentTree(arr, n);
+        
+           // tree.print();
+            
+           System.out.println("Sum of values in given range = " +
+                           tree.getSum(n, 1, 3));
+        
+           tree.updateValue(arr, n, 1, 10);
+        
+           System.out.println("Updated sum of values in given range = " +
+                tree.getSum(n, 1, 3)) ;
+    
+    }
+}
