@@ -15,6 +15,7 @@ class BIT
          }    
     }
     
+    // to get the parent take the binary reperesentation of the child & flip the rightmost set bit 
     
     public void update(int index,int len,int val)
     {
