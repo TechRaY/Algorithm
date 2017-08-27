@@ -1,0 +1,35 @@
+
+    static int upperboundSearch(int arr[],int key,int low,int high)
+    {
+        int mid=(low+high)/2;
+        
+       // System.out.println(mid);
+        
+      //  System.out.println(arr[mid]);
+   /*     System.out.println(arr[mid-1]);
+        System.out.println(key);
+     */  
+        
+        if(arr[low]>=key)
+        {
+            return low;     
+        }
+        else if(arr[high]<key)
+        {
+            return -1;
+        }    
+        if(mid!=low && arr[mid]>=key && arr[mid-1]<key)
+        {
+            return mid;
+        }
+        else if( arr[mid]>=key)
+        {
+            return upperboundSearch(arr,key,low,mid-1);
+        }
+        else if(arr[mid]<key)
+        {
+            return upperboundSearch(arr,key,mid+1,high);
+        }
+        
+        return -1;
+    }
