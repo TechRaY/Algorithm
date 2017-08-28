@@ -1,0 +1,307 @@
+//http://codeforces.com/contest/617/problem/E
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+  public static class Query {
+    int index;
+    int a;
+    int b;
+
+    public Query(int a, int b) {
+      this.a = a;
+      this.b = b;
+    }
+    
+      
+      public  String toString()
+      {
+          return " "+index+" "+a+" "+b+" ";
+      }    
+  }
+
+  static void add(long[] a, long[] count, int i) 
+  {
+       cur+=count[(int)a[i]^k];   
+       ++count[(int)a[i]];
+  }
+
+  static void remove(long[] a, long[] count, int i) 
+  {
+        --count[(int)a[i]];
+        cur-=count[(int)a[i]^k];   
+  }
+
+  static long cur = 0;
+  static int k=0;
+    
+  public static long[] solve(long[] a, Query[] queries) 
+  {
+    for (int i = 0; i < queries.length; i++) queries[i].index = i;
+    int sqrtn = (int) Math.sqrt(a.length);
+        
+    Arrays.sort(queries, (q1, q2) -> {
+      int cmp = Integer.compare(q1.a / sqrtn, q2.a / sqrtn);
+      return cmp != 0 ? cmp : Integer.compare(q1.b, q2.b);
+    }
+    
+   );
+      
+      
+    long[] cnt =new long[10000001];
+    long[] res = new long[queries.length];
+    int L = 1;
+    int R = 0;
+   
+    for (Query query : queries) {
+      while (L < query.a) remove(a, cnt, L++);
+      while (L > query.a)  add(a, cnt, --L);
+      while (R < query.b) add(a, cnt,++R);
+      while (R > query.b) remove(a, cnt, R--);
+        
+      res[query.index] = cur;
+    }
+      
+    return res;
+  }
+
+  public static void main(String[] args) 
+  {
+    
+    
+    long n=sc.nextLong();  
+    int qn=sc.nextInt();
+    k=sc.nextInt();
+      
+    long a[]=new long[(int)n+1];
+    long prefixxor[]=new long[(int)n+1];
+      
+    prefixxor[0]=0;
+      
+    
+    for(int i=1;i<=n;i++)
+    {
+        a[i]=sc.nextInt();
+    
+    }   
+      
+    for(int i=1;i<=n;i++)
+    {
+    //    a[i]=sc.nextInt();
+        prefixxor[i]=prefixxor[i-1]^a[i];
+    }    
+    
+    
+    Query[] queries = new Query[qn];  
+    int val1=0,val2=0;
+    
+      
+    for(int i=0;i<qn;i++)
+    {
+        val1=sc.nextInt();
+        val2=sc.nextInt();
+        
+        queries[i]=new Query(val1-1,val2);
+    }    
+      
+ //  System.out.println(Arrays.toString(queries)); 
+    
+    long[] res = solve(prefixxor, queries);
+   
+       
+      
+    for(int i=0;i<qn;i++)
+    {
+      System.out.println(res[i]);
+    }  
+        
+        
+  }
+    
+ static InputReader sc=new InputReader(System.in);
+	
+ 
+ static class InputReader
+	{
+		private InputStream stream;
+		private byte[] buf = new byte[1024];
+		private int curChar;
+		private int numChars;
+		private SpaceCharFilter filter;
+		
+		public InputReader(InputStream stream)
+		{
+			this.stream = stream;
+		}
+		
+		public int read()
+		{
+			if (numChars==-1) 
+				throw new InputMismatchException();
+			
+			if (curChar >= numChars)
+			{
+				curChar = 0;
+				try 
+				{
+					numChars = stream.read(buf);
+				}
+				catch (IOException e)
+				{
+					throw new InputMismatchException();
+				}
+				
+				if(numChars <= 0)				
+					return -1;
+			}
+			return buf[curChar++];
+		}
+	 
+		public String nextLine()
+		{
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+			String str = "";
+            try
+            {
+                str = br.readLine();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+		}
+		public int nextInt()
+		{
+			int c = read();
+			
+			while(isSpaceChar(c)) 
+				c = read();
+			
+			int sgn = 1;
+			
+			if (c == '-') 
+			{
+				sgn = -1;
+				c = read();
+			}
+			
+			int res = 0;
+			do 
+			{
+				if(c<'0'||c>'9') 
+					throw new InputMismatchException();
+				res *= 10;
+				res += c - '0';
+				c = read();
+			}
+			while (!isSpaceChar(c)); 
+			
+			return res * sgn;
+		}
+		
+		public long nextLong() 
+		{
+			int c = read();
+			while (isSpaceChar(c))
+				c = read();
+			int sgn = 1;
+			if (c == '-') 
+			{
+				sgn = -1;
+				c = read();
+			}
+			long res = 0;
+			
+			do 
+			{
+				if (c < '0' || c > '9')
+					throw new InputMismatchException();
+				res *= 10;
+				res += c - '0';
+				c = read();
+			}
+			while (!isSpaceChar(c));
+				return res * sgn;
+		}
+		
+		public double nextDouble() 
+		{
+			int c = read();
+			while (isSpaceChar(c))
+				c = read();
+			int sgn = 1;
+			if (c == '-') 
+			{
+				sgn = -1;
+				c = read();
+			}
+			double res = 0;
+			while (!isSpaceChar(c) && c != '.') 
+			{
+				if (c == 'e' || c == 'E')
+					return res * Math.pow(10, nextInt());
+				if (c < '0' || c > '9')
+					throw new InputMismatchException();
+				res *= 10;
+				res += c - '0';
+				c = read();
+			}
+			if (c == '.') 
+			{
+				c = read();
+				double m = 1;
+				while (!isSpaceChar(c)) 
+				{
+					if (c == 'e' || c == 'E')
+						return res * Math.pow(10, nextInt());
+					if (c < '0' || c > '9')
+						throw new InputMismatchException();
+					m /= 10;
+					res += (c - '0') * m;
+					c = read();
+				}
+			}
+			return res * sgn;
+		}
+		
+		public String readString() 
+		{
+			int c = read();
+			while (isSpaceChar(c))
+				c = read();
+			StringBuilder res = new StringBuilder();
+			do 
+			{
+				res.appendCodePoint(c);
+				c = read();
+			} 
+			while (!isSpaceChar(c));
+			
+			return res.toString();
+		}
+	 
+		public boolean isSpaceChar(int c) 
+		{
+			if (filter != null)
+				return filter.isSpaceChar(c);
+			return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
+		}
+	 
+		public String next() 
+		{
+			return readString();
+		}
+		
+		public interface SpaceCharFilter 
+		{
+			public boolean isSpaceChar(int ch);
+		}
+	}
+       
+}
