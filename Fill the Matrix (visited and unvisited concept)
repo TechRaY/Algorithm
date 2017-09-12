@@ -1,0 +1,98 @@
+https://www.codechef.com/SEPT17/problems/FILLMTR
+
+#include <bits/stdc++.h>
+using namespace std;
+#define inti long long
+
+int main() {
+	inti t; cin>>t;
+	while(t--)
+	{
+	inti n,q;
+	cin >> n >> q;
+	inti i=0;
+	 vector<pair<inti, pair <inti,inti> >> v(q);
+	inti k=q;
+	inti f=1;
+	while(k--)
+	{
+	  inti a,b,c;
+	  cin >> a>>b>>c;
+	  if(a>b) swap(a,b);
+	    v[i].first=a;
+        v[i].second.first=b;
+        v[i].second.second=c;
+        
+        if(a==b)
+        {
+            if(c)
+                f =0;
+        }
+        i++;
+	}
+        
+        if(!f)
+            cout<<" no\n";
+        else
+        {
+            
+        
+sort(v.begin(),v.end());
+	        inti be[n+1] = {0};
+     
+    	    	for(inti i = 0;i<q;i++)
+    	    	{
+    	    		inti a,b,c;
+    	    		a = v[i].first;
+    	    		b = v[i].second.first;
+    	    		c = v[i].second.second;
+     
+     
+     
+    	    		if(!be[a] && !be[b])
+    	    		{
+    	    			be[a] = 1;
+    	    			be[b] = 1+c;
+     
+    	    		}
+    	    		else if(!be[a] && be[b])
+    	    		{
+    	    			if(be[b] == 2) 
+    	    			    be[a] = 2-c;
+    	    			
+    	    			else	
+    	    			    be[a] = 1+c;
+    	    			
+    	    		}
+    	    		else if(be[a] && !be[b])
+    	    		{
+    	    			if(be[a] == 2) 
+    	    			    be[b] = 2-c;
+    	    			else 
+    	    			    be[b] = 1+c;
+    	    			
+    	    		}
+    	    		else
+    	    		{
+    	    		    
+    	    		    
+    	    		    
+    	    		    
+    	    		    /////rock and rolll checking '
+    	    		    //only wrong statemnt
+    	    			if(abs(be[a] - be[b]) != c )
+    	    			{
+    	    				f=0;break;
+    	    			}
+    	    		}
+    	    		if(f==0)
+    	    		break;
+     
+    	    	}
+    	    	
+    	    	if (f==1) 
+    	    	cout << "yes\n";
+    	    	else cout << "no\n";
+    	    }
+	} 
+} 
