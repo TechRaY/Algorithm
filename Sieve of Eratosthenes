@@ -1,29 +1,30 @@
-static void seive(int N)
-{
-    // 0 and 1 are not prime
-    isprime[0] = isprime[1] = false ;
- 
-    // Fill rest of the entries
-    for (long long int i=2; i<N ; i++)
-    {
-        // If isPrime[i] == True then i is
-        // prime number
-        if (isprime[i])
+
+        static int SPF[] = new int[1000001];
+        static boolean isprime[] = new boolean[1000001];
+        static ArrayList<Integer> prime = new ArrayList();
+        
+         static void seive(int N)
         {
-            // put i into prime[] vector
-            prime.push_back(i);
- 
-            // A prime number is its own smallest
-            // prime factor
-            SPF[i] = i;
+            Arrays.fill(isprime,true);
+            isprime[0] = isprime[1] = false ;
+            SPF[1]=1;
+            
+            for (int i=2; i<N ; i++)
+            {
+                if (isprime[i])
+                {
+                    prime.add(i);
+                    SPF[i] = i;
+                }
+     
+                
+                for (int j=0; j<prime.size() && i*prime.get(j)<N && prime.get(j)<=SPF[i] ; j++)
+                {
+                    int val = i*prime.get(j);
+                    isprime[val] = false;
+                    SPF[val] = prime.get(j) ;
+                }
+            }
+            isprime[1] = false;
+            isprime[0]= false;
         }
- 
-        for (long long int j=0; j < (int)prime.size() && i*prime[j] < N && prime[j] <= SPF[i]; j++)
-        {
-            isprime[i*prime[j]]=false;
- 
-            // put smallest prime factor of i*prime[j]
-            SPF[i*prime[j]] = prime[j] ;
-        }
-    }
-}
