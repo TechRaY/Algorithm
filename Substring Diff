@@ -1,0 +1,76 @@
+//https://www.hackerrank.com/challenges/substring-diff/problem
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+
+
+public class Solution {
+    
+    static int c[][];
+    static int l,s;
+
+    static boolean solve(int mid)
+    {
+	   for(int i = mid;i <= l;i++)
+        {
+                for(int j = mid;j <= l;j++)
+                {
+                    int tmp = c[i][j] - c[i-mid][j-mid];
+                    if(tmp <= s) return true;
+                }
+         }
+        return false;
+    }
+    
+    public static void main(String args[] ) throws Exception {
+        
+        Scanner sc=new Scanner(System.in);
+        int t;  
+        t=sc.nextInt();
+        
+	while(t-->0)
+	{
+		s=sc.nextInt();
+		char a[],b[];  
+        String la=sc.nextLine();
+        System.out.println(la);
+        
+        String k[]=la.split(" ");
+        
+       // System.out.println(k[0]+" "+k[1]+" "+k[2]);
+        
+        a=k[1].toCharArray();
+        b=k[2].toCharArray();
+        
+		l = a.length;
+        c=new int[l+1][l+1];
+        
+		for(int i=0;i<l;++i)
+		{
+		  for(int j=0;j<l;++j)
+		  {
+		  	  	if(a[i]==b[j])
+		  	  	 c[i+1][j+1] = c[i][j] ;
+		  	  	 else
+		  	  	 c[i+1][j+1] = c[i][j] +1;
+		  }
+              
+              System.out.println(Arrays.toString(c[i]));
+              
+		  }
+		  int low = 0,high = l,mid;
+            while(low < high)
+			{
+                mid = (low + high + 1) >> 1;
+                if(solve(mid)) low = mid;
+                else high = mid - 1;
+            }
+		  System.out.println(low);
+	}
+        
+    }
+}
