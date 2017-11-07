@@ -1,0 +1,122 @@
+//https://www.codechef.com/NOV17/problems/CHEFHPAL
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+class Solution {
+
+public static void main(String[] args) 
+    {
+         Scanner sc=new Scanner(System.in); 
+         int testcases=sc.nextInt();
+           
+         while(testcases-->0)
+         {
+             int n=sc.nextInt();
+             int p=sc.nextInt();
+             StringBuffer ans=new StringBuffer();
+             
+             if(p==1)
+             {
+                 ans.append(n+" ");
+                 
+                 for(int i=0;i<n;i++)
+                 {
+                     ans.append('a'+"");
+                 }    
+                 
+                 System.out.println(ans);
+                 continue;
+             }
+            
+             if(p>=3)                                   
+             {
+                ans.append(1+" ");
+                 
+                 for(int i=0;i<n;i++)
+                 {
+                     if(i%3==0)
+                     ans.append('a'+"");
+                     if(i%3==1)
+                     ans.append('b'+"");
+                     if(i%3==2)
+                     ans.append('c'+"");
+                     
+                 }    
+                 
+                 System.out.println(ans);
+                 continue;
+             }
+        
+             if(p==2)
+             {
+                if(n==2)
+                {
+                    System.out.println(1+" ab");
+                    continue;
+                }
+                if(n==1)
+                {
+                    System.out.println(1+" a");
+                    continue;
+                }
+                 
+                if(n==3)
+                {
+                    System.out.println(2+" aab");
+                    continue;
+                }    
+                if(n==4)
+                {
+                    System.out.println(2+" aabb");
+                    continue;
+                }    
+                if(n==5)
+                {
+                    System.out.println(3+" aaabb");
+                    continue;
+                }    
+                if(n==6)
+                {
+                    System.out.println(3+" bbabaa");
+                    continue;
+                }    
+                if(n==7)
+                {
+                    System.out.println(3+" aaababb");
+                    continue;
+                }    
+                if(n==8)
+                {
+                    System.out.println(3+" aaababbb");
+                    continue;
+                }    
+                else
+                {
+                    ans.append(4+" ");
+                    int value=n/6;
+                    for(int i=0;i<value;i++)
+                    ans.append("babbaa");
+                    
+                    if(n%6!=0)
+                    {
+                        value=n%6;
+                        String sub="babbaa".substring(0,value);
+                        
+                        ans.append(sub);
+                    }
+                    
+                    System.out.println(ans);
+                    continue;
+                }   
+                 
+             }                               
+             
+         }   
+    
+    }
+}
+
